@@ -8,7 +8,7 @@
 
    const API_KEY = '9eb126d',
       OMDb_REQ = 'http://www.omdbapi.com/?apikey=',
-      G_TRANSLATER_STRT = 'http://translate.google.ru/translate_a/t?client=x&text=',
+      G_TRANSLATER_STRT = 'https://translate.google.ru/translate_a/t?client=x&text=',
       G_TRANSLATER_ND = '&hl=en&sl=en&tl=ru',
       DEBUG = true;
 
