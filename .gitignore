@@ -1,0 +1,6 @@
+node_modules
+
+*.psd
+package-lock.json
+*.zip
+*.db
