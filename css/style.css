@@ -6,9 +6,46 @@ a,
 button {
    transition: all 0.3s ease-in-out;
 }
+
 textarea {
    display: block;
    margin: 0 0 20px 50px;
    padding: 15px;
    width: 90%;
+}
+
+ul {
+   display: flex;
+   flex-wrap: wrap;
+}
+
+ul li {
+   display: flex;
+   margin: 10px;
+   min-width: 45%;
+   align-self: flex-start;
+}
+
+ul li img {
+   order: 1;
+   width: 150px;
+}
+
+ul li p {
+   order: 2;
+   padding-left: 10px;
+   width: 400px;
+}
+
+.page-wrap {
+   text-align: center;
+}
+
+.page-wrap .page {
+   margin: 5px;
+}
+
+ul li button {
+   height: 100%;
+   order: 3;
 }
