@@ -26,7 +26,7 @@
 
       if (nameFilm) {
 
-         getFilmInfo(nameFilm, page).then(function (obj) {
+         getFilmInfo(nameFilm.trim(), page).then(function (obj) {
 
             if (obj.Response != "False") {
                namesFilm.push(obj);
