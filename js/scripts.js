@@ -9,17 +9,20 @@
       IMG_WAY = 'img/404_error.jpg';
 
    let showFilm = document.getElementById('showFilm'),
-      filmType = document.getElementById('select').value,
+      filmType = null,
       nameFilm = null,
       namesFilm = [],
       page = '1',
       isFirstStart = true,
-      ul = document.getElementById('ul');
+      ul = document.getElementById('ul'),
+      favorite = document.getElementById('favorite'),
+      storage = [];
 
-
+   useInformFromLocStorage();
 
    showFilm.addEventListener('click', function () {
       nameFilm = document.getElementById('name-film').value;
+      filmType = document.getElementById('select').value;
 
       if (nameFilm) {
 
@@ -27,9 +30,11 @@
 
             if (obj.Response != "False") {
                namesFilm.push(obj);
-               printFilms();
+               printFilms(ul);
                getDetails(obj);
+
                if (isFirstStart) getPagination(+obj.totalResults);
+
                getCurrentPage();
             } else {
                cleaning();
@@ -41,7 +46,6 @@
       } else {
          alert('Введите хотябы одно название фильма');
       }
-
    });
 
    async function getFilmInfo(film, page) {
@@ -50,17 +54,23 @@
       return answer;
    }
 
-   async function getFilmExtraInfo(film) {
-      const response = await fetch(`${OMDb_REQ}${API_KEY}&t=${film}&type=${filmType}`);
+   async function getFilmExtraInfo(film, isFav) {
+      let response = null;
+      if (isFav) response = await fetch(`${OMDb_REQ}${API_KEY}&i=${film}`);
+      else response = await fetch(`${OMDb_REQ}${API_KEY}&i=${film}`);
+      // console.log(response);
       let answer = await response.json();
       return answer;
    }
 
-   function printFilms() {
-      ul.innerHTML = '';
+   function printFilms(tag, isFavorite, favArr) {
 
-      let textNode = '',
-         filmArray = namesFilm[0].Search;
+      let filmArray = [],
+         textNode = '';
+      tag.innerHTML = '';
+
+      if (isFavorite) filmArray = favArr;
+      else filmArray = namesFilm[0].Search;
 
       for (let i = 0; i < filmArray.length; i++) {
 
@@ -70,20 +80,22 @@
             let li = document.createElement('li'),
                img = document.createElement('img'),
                paragraf = document.createElement('p'),
-               details = document.createElement('button');
+               details = null;
+
+            if (!isFavorite) details = document.createElement('button');
 
             if (filmArray[i].Poster != 'N/A') img.src = filmArray[i].Poster;
             else img.src = IMG_WAY;
 
-            paragraf.classList = 'film-title';
+            if (!isFavorite) paragraf.classList = 'film-title';
             paragraf.innerHTML = textNode;
-            details.classList = 'btn-details';
-            details.innerHTML = 'details';
+            if (!isFavorite) details.classList = 'btn-details';
+            if (!isFavorite) details.innerHTML = 'details';
 
             li.appendChild(img);
-            li.appendChild(details);
+            if (!isFavorite) li.appendChild(details);
             li.appendChild(paragraf);
-            ul.append(li);
+            tag.append(li);
 
          }
 
@@ -139,22 +151,28 @@
          detailsBtns.forEach((element, index) => {
             element.addEventListener('click', () => {
 
-               getFilmExtraInfo(val.Search[index].Title).then(function (obj) {
+               if (!detailsForFilm[index].querySelector('.details')) {
+                  getFilmExtraInfo(val.Search[index].imdbID, false).then(function (obj) {
 
-                  let detail = document.createElement('p');
+                     // console.log(obj);
 
-                  detail.innerHTML = `
-                  Актеры: ${obj.Actors}<br>
-                 Рейтинг: ${obj.imdbRating}<br>
-                Страна: ${obj.Country}<br>
-                 Режисер: ${obj.Director}<br>
-                 Длительность: ${obj.Runtime}<br>
-                 Награды и номинации: ${obj.Awards}<br>
-                  Год: ${obj.Year} <br>
-                  Тип: ${obj.Type} <br>`;
-                  detailsForFilm[index].append(detail);
+                     let detail = document.createElement('p');
+                     detail.classList = 'details';
 
-               });
+                     detail.innerHTML = `
+                     Актеры: ${obj.Actors}<br>
+                     Рейтинг: ${obj.imdbRating}<br>
+                     Страна: ${obj.Country}<br>
+                     Режисер: ${obj.Director}<br>
+                     Длительность: ${obj.Runtime}<br>
+                     Награды и номинации: ${obj.Awards}<br>
+                     Год: ${obj.Year} <br>
+                     Тип: ${obj.Type} <br>`;
+                     detailsForFilm[index].append(detail);
+
+                     setFavoriteMovies(obj.imdbID);
+                  });
+               }
 
             });
          });
@@ -162,4 +180,52 @@
 
    }
 
+   function setFavoriteMovies(name) {
+
+
+      for (let i = 0; i < localStorage.length; i++) {
+         storage[i] = localStorage[i];
+
+      }
+
+
+      let n = 10;
+
+      if (storage.length < n + 1) {
+         storage.unshift(name);
+      } else if (storage.length > n) {
+         storage.splice(0, 1);
+         storage.unshift(name);
+      }
+
+      storage.forEach((el, i) => {
+         if (localStorage.getItem(i) != el) {
+            localStorage.setItem(el, el);
+         }
+      });
+
+   }
+
+   function useInformFromLocStorage() {
+      let buffer = [],
+         favWrap = document.querySelector('.fav-wrap');
+
+
+      if (localStorage.length > 0) {
+         favWrap.classList.add('block');
+
+
+
+         for (let i = 0; i < localStorage.length; i++) {
+            getFilmExtraInfo(localStorage.key(i), true).then(function (obj) {
+               buffer.push(obj);
+               printFilms(favorite, true, buffer);
+            });
+
+         }
+      }
+   }
+
 })();
+
+
