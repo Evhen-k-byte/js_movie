@@ -7,8 +7,60 @@ button {
    transition: all 0.3s ease-in-out;
 }
 
+body {
+   margin: 0;
+   padding: 0;
+}
+
+.disp-none {
+   display: none;
+}
+
+.wrapper {
+   position: relative;
+   min-height: 100vh;
+   background-color: rgba(247, 129, 29, 0.7);
+   padding: 15px;
+}
+
+.wrapper::after {
+   content: "";
+   position: absolute;
+   top: 0;
+   left: 0;
+   min-height: 100%;
+   width: 100%;
+   background-color: #f7941d;
+   background-image: url(../img/show.jpg);
+   background-repeat: no-repeat;
+   background-position: 1% 90%;
+   z-index: -1;
+}
+
 select {
    margin: 10px;
+}
+
+#name-film {
+   display: block;
+   margin: 10px;
+   width: 50%;
+   padding: 10px;
+   border-radius: 10px;
+   outline: none;
+   border: none;
+   background-color: #ffffff;
+   opacity: 0.2;
+   transform: scale(0.9);
+   transition: all 0.3s ease-out;
+}
+
+#name-film:focus {
+   opacity: 1;
+}
+
+#name-film:hover {
+   transform: scale(1);
 }
 
 textarea {
@@ -34,6 +86,10 @@ ul li {
    margin: 0;
 }
 
+#ul li {
+   position: relative;
+}
+
 #ul li img {
    order: 1;
    width: 150px;
@@ -43,7 +99,7 @@ ul li {
 #ul li p {
    order: 2;
    padding-left: 10px;
-   width: 400px;
+   max-width: 400px;
    margin: 2px 0 0 5px;
 }
 
@@ -56,21 +112,31 @@ ul li {
 }
 
 #ul li button {
-   height: 100%;
-   order: 3;
+   height: 30px;
+   position: absolute;
+   bottom: 0;
+   left: 170px;
 }
 
 .favorite {
    display: flex;
    flex-wrap: nowrap;
+   padding-left: 0;
+}
+
+.scroll {
    overflow-x: scroll;
 }
 
 .favorite li {
    min-width: 25%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 
 .favorite li img {
+   display: block;
    width: 70px;
 }
 
@@ -79,15 +145,60 @@ ul li {
 }
 
 .favorite li p {
-   margin-left: 10px;
+   /* margin-left: 10px; */
 }
 
 .fav-wrap {
    display: none;
    margin: 5px;
    padding: 5px;
+   width: 90%;
 }
 
 .block {
    display: block;
+}
+
+@media (max-width: 900px) {
+   .favorite li {
+      align-items: stretch;
+   }
+
+   #name-film {
+      width: 100%;
+   }
+
+   .page-wrap{
+      display: flex;
+      overflow: scroll;
+   }
+}
+
+@media (max-width: 500px) {
+   #ul {
+      padding-left: 0;
+      text-align: center;
+   }
+}
+
+@media (max-width: 400px) {
+   #ul {
+      text-align: center;
+   }
+
+   #ul li button {
+      bottom: 60px;
+      left: 40%;
+   }
+
+   #ul li img {
+      display: block;
+      width: 100%;
+      margin: 0 auto 10px;
+   }
+
+   ul li {
+      flex-wrap: wrap;
+   }
+
 }

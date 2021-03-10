@@ -10,29 +10,31 @@
 </head>
 
 <body>
-
-   <p>
-      <b>Введите название латиницей <br>
-         прим:</b> terminator
-   </p>
-
-   <select id="select">
-      <option selected value="movie">Полнометражный фильм</option>
-      <option value="series">Телевизионный сериал</option>
-      <option value="episode">Эпизод</option>
-   </select>
-   <textarea id="name-film" rows="10"></textarea>
-   <button id="showFilm">Получить фильмы</button>
-
-   <div class="fav-wrap">
-      <p><b>Часто просматриваемые фильмы:</b></p>
-      <ul id="favorite" class="favorite"> </ul>
-   </div>
-
-
-   <ul id="ul"></ul>
-
-   <div class="page-wrap"></div>
+<div class="wrapper">
+   
+      <p>
+         <b>Введите название латиницей <br>
+            прим:</b> terminator
+      </p>
+   
+      <select id="select">
+         <option selected value="movie">Полнометражный фильм</option>
+         <option value="series">Телевизионный сериал</option>
+         <option value="episode">Эпизод</option>
+      </select>
+      <input type="text" id="name-film">
+      <button id="showFilm">Получить фильмы</button>
+   
+      <div class="fav-wrap">
+         <p><b>Часто просматриваемые фильмы:</b></p>
+         <ul id="favorite" class="favorite"> </ul>
+      </div>
+   
+   
+      <ul id="ul"></ul>
+   
+      <div class="page-wrap"></div>
+</div>
 
    <script src="js/scripts.js"></script>
 </body>

@@ -72,6 +72,9 @@
       if (isFavorite) filmArray = favArr;
       else filmArray = namesFilm[0].Search;
 
+      if(filmArray.length > 4) favorite.classList.add('scroll');
+      else favorite.classList.remove('scroll');
+
       for (let i = 0; i < filmArray.length; i++) {
 
          if (filmArray[i].Title != undefined) {
@@ -150,6 +153,8 @@
       if (val) {
          detailsBtns.forEach((element, index) => {
             element.addEventListener('click', () => {
+
+               element.classList.add('disp-none');
 
                if (!detailsForFilm[index].querySelector('.details')) {
                   getFilmExtraInfo(val.Search[index].imdbID, false).then(function (obj) {
